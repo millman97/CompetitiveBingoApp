@@ -1,0 +1,51 @@
+{
+  "name": "competitive-bingo-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "vendor:contract": "node scripts/vendor-contract.mjs",
+    "generate": "wrangler types && node scripts/generate-contract.mjs",
+    "prebuild": "npm run generate",
+    "build": "vite build",
+    "typecheck": "tsc -b",
+    "test": "npm run generate && npm run build && vitest run",
+    "test:watch": "vitest",
+    "dev": "wrangler dev",
+    "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "dev:web": "vite",
+    "dev:lan": "wrangler dev --ip 0.0.0.0",
+    "check:web": "tsc --project tsconfig.web.json --noEmit --emitDeclarationOnly false --composite false --incremental false",
+    "check:worker": "tsc --project tsconfig.worker.json --noEmit --emitDeclarationOnly false --composite false --incremental false",
+    "test:unit": "node scripts/run-unit-tests.mjs",
+    "format:web": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "format:web:check": "prettier --check \"src/**/*.{ts,tsx,css}\"",
+    "check:unit": "tsc --project tsconfig.unit.json --noEmit --emitDeclarationOnly false --composite false --incremental false",
+    "check:structure": "node scripts/check-frontend-structure.mjs"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.102.3",
+    "hono": "^4.6.14",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.22.0",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.2.0",
+    "@types/react": "^18.3.31",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^6.1.0",
+    "ajv": "^8.17.1",
+    "json-schema-to-typescript": "^15.0.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.7.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.125.0",
+    "prettier": "3.9.6"
+  }
+}

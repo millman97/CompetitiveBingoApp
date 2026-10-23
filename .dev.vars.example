@@ -1,0 +1,9 @@
+# Copy to .dev.vars for local development. .dev.vars is gitignored.
+#
+# In a real deployment both of these are pushed as secrets by the deploy workflow and never
+# exist in the repository.
+#
+# Generate a hash for a password of your choosing with:
+#   node scripts/hash-password.mjs "a-password-at-least-12-characters"
+ADMIN_PASSWORD_HASH="replace-with-your-generated-local-password-hash"
+SIGNING_KEY="a-long-random-string-for-local-development-only"

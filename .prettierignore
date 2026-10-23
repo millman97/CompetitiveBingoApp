@@ -1,0 +1,9 @@
+node_modules
+.cache
+notes
+dist
+src/generated
+src/worker
+src/contract
+contract
+package-lock.json
