@@ -16,6 +16,8 @@
     "test:watch": "vitest",
     "dev": "wrangler dev",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "simulate": "esbuild tools/simulator/cli.ts --bundle --platform=node --format=esm --outfile=dist/simulator.mjs --log-level=warning && node dist/simulator.mjs",
+    "seed:local": "node scripts/seed-local.mjs",
     "dev:web": "vite",
     "dev:lan": "wrangler dev --ip 0.0.0.0",
     "check:web": "tsc --project tsconfig.web.json --noEmit --emitDeclarationOnly false --composite false --incremental false",
