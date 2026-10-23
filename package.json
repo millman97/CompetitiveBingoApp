@@ -7,6 +7,9 @@
     "node": ">=22.12.0"
   },
   "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "deploy": "node scripts/deploy.mjs",
+    "test:deploy": "node --test scripts/__tests__/deployment.test.mjs",
     "vendor:contract": "node scripts/vendor-contract.mjs",
     "generate": "wrangler types && node scripts/generate-contract.mjs",
     "prebuild": "npm run generate",
@@ -16,6 +19,7 @@
     "test:watch": "vitest",
     "dev": "wrangler dev",
     "db:migrate:local": "wrangler d1 migrations apply DB --local",
+    "db:migrate:remote": "wrangler d1 migrations apply DB --remote --config .cache/deploy/wrangler.json",
     "simulate": "esbuild tools/simulator/cli.ts --bundle --platform=node --format=esm --outfile=dist/simulator.mjs --log-level=warning && node dist/simulator.mjs",
     "seed:local": "node scripts/seed-local.mjs",
     "dev:web": "vite",
