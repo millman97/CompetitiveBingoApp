@@ -1,0 +1,643 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://competitivebingo.invalid/schema/event.schema.json",
+  "title": "Competitive Bingo event envelope",
+  "description": "One observed fact reported by the RuneLite plugin. The body of POST /api/plugin/events is an array of these. See docs/api-contract.md section 5.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "eventId",
+    "gameId",
+    "accountHash",
+    "displayName",
+    "sessionId",
+    "clientTime",
+    "gameTick",
+    "world",
+    "worldTypes",
+    "metric",
+    "source",
+    "detail",
+    "screenshot",
+    "screenshotMediaType"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "description": "Shape version of this envelope. A mismatch is answered with HTTP 409.",
+      "type": "integer",
+      "const": 1
+    },
+    "eventId": {
+      "description": "Deterministic idempotency key: first 16 bytes of a SHA-256, lowercase hex. Derived from accountHash, sessionId, metric ID and type-specific fields; COLLECTION_LOG omits sessionId deliberately, and a MANUAL event is keyed on what was typed. Unique within a game, not globally; deduplicate on (gameId, eventId).",
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "gameId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "accountHash": {
+      "description": "client.getAccountHash() as a decimal string. A string because the value exceeds 2^53 and would be corrupted by JSON.parse. This is the identity key; displayName is not.",
+      "type": "string",
+      "pattern": "^-?[0-9]{1,20}$"
+    },
+    "displayName": {
+      "description": "Current display name, for human-readable logs only. Never use as an identity key.",
+      "type": "string"
+    },
+    "sessionId": {
+      "description": "Lowercase RFC 4122 UUID minted per play session (login, and again on account switch). Disambiguates gameTick, which is a per-client counter that repeats across sessions. Not a credential and not identity.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "clientTime": {
+      "description": "Epoch milliseconds from the player's own clock. Unverified; prefer server receipt time for anything load-bearing.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "gameTick": {
+      "description": "client.getTickCount() at the moment of observation. A per-client counter that repeats across sessions.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "world": {
+      "type": "integer"
+    },
+    "worldTypes": {
+      "description": "Names of the net.runelite.api.WorldType constants set for the current world. Note TOURNAMENT_WORLD, not TOURNAMENT.",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "metric": {
+      "$ref": "#/$defs/metric"
+    },
+    "source": {
+      "description": "Whether the plugin observed this or the player typed it. A server that does not accept hand-typed events rejects MANUAL on ingest rather than relying on the plugin not offering the control.",
+      "type": "string",
+      "enum": [
+        "OBSERVED",
+        "MANUAL"
+      ]
+    },
+    "detail": {
+      "description": "Type-specific payload. Selected by metric.type when source is OBSERVED, and always manualDetail when source is MANUAL. There is no discriminator inside the object itself.",
+      "type": "object"
+    },
+    "screenshot": {
+      "description": "Base64 of the captured frame, carried inside the event itself. Null when this event has no evidence, which is the case when the game does not ask for screenshots, the player has them switched off, or no frame arrived before the capture timed out. Images are never uploaded to a separate destination.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "contentEncoding": "base64"
+    },
+    "screenshotMediaType": {
+      "description": "Content type of screenshot, e.g. image/jpeg. Null when screenshot is null. WebP is preferred but almost never available in a Java runtime, so this is usually image/jpeg.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "image/webp",
+        "image/jpeg",
+        "image/png",
+        null
+      ]
+    }
+  },
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "type",
+        "value",
+        "delta",
+        "firstObservation"
+      ],
+      "properties": {
+        "id": {
+          "description": "Normalised metric ID, e.g. kc.vorkath. See docs/api-contract.md section 3.",
+          "type": "string",
+          "pattern": "^(kc|kill|time|collection_log|drop)\\.[a-z0-9_]+$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "COUNT",
+            "KILL",
+            "DROP",
+            "DURATION",
+            "COLLECTION_LOG"
+          ]
+        },
+        "value": {
+          "description": "The absolute figure the game stated, or null where it gives none. COUNT: the count. DURATION: milliseconds. KILL and DROP: always null. COLLECTION_LOG: slots filled, usually null.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "delta": {
+          "description": "What this single observation represents. COUNT, KILL and COLLECTION_LOG: always 1. DROP: quantity. DURATION: always null.",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "firstObservation": {
+          "description": "First observation of this metric since the plugin began tracking the current account. A gap against the stored value is therefore unexplained rather than a dropped event.",
+          "type": "boolean"
+        }
+      }
+    },
+    "countDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activity",
+        "rawMessage"
+      ],
+      "properties": {
+        "activity": {
+          "description": "Activity name in the game's own spelling, before normalisation.",
+          "type": "string",
+          "minLength": 1
+        },
+        "rawMessage": {
+          "description": "The full chat line the count was parsed from, for auditing.",
+          "type": "string"
+        }
+      }
+    },
+    "killDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "npcId",
+        "npcName",
+        "combatLevel",
+        "signal",
+        "observationOrdinal"
+      ],
+      "properties": {
+        "npcId": {
+          "description": "RuneLite NPC composition ID for the server-attributed loot source.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "npcName": {
+          "description": "Canonical NPC name before metric slugification.",
+          "type": "string",
+          "minLength": 1
+        },
+        "combatLevel": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "signal": {
+          "description": "The server-attributed RuneLite signal used to observe this kill.",
+          "type": "string",
+          "const": "SERVER_NPC_LOOT"
+        },
+        "observationOrdinal": {
+          "description": "Zero-based ordinal among accepted NPC kill observations on this game tick. Distinguishes simultaneous kills and participates in event ID derivation.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "dropDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "itemId",
+        "itemName",
+        "quantity",
+        "source",
+        "sourceType",
+        "killCount",
+        "geValue",
+        "haValue",
+        "ruleValue",
+        "observationOrdinal"
+      ],
+      "properties": {
+        "itemId": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "itemName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "quantity": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "source": {
+          "description": "NPC, player or activity that produced the loot.",
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceType": {
+          "description": "Mirrors RuneLite's LootRecordType.",
+          "type": "string",
+          "enum": [
+            "NPC",
+            "PLAYER",
+            "PICKPOCKET",
+            "EVENT",
+            "UNKNOWN"
+          ]
+        },
+        "killCount": {
+          "description": "Last-seen kill count for source, derived from chat rather than from the loot event. Context only, frequently null, never authoritative.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "geValue": {
+          "description": "Grand Exchange price of one of the item, from the running client. Null on a game with no dropValueRules, and for an item the client has no price for - which is not the same as worth nothing. Lags the market and differs between clients, so it is context for review rather than a figure to score on.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "haValue": {
+          "description": "High alchemy value of one of the item, under the same caveats as geValue.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "ruleValue": {
+          "description": "The figure a dropValueRules entry was tested against: the chosen valuation times quantity. Non-null exactly on events a rule produced.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "observationOrdinal": {
+          "description": "Zero-based ordinal among drop observations emitted on this game tick. Distinguishes identical simultaneous drops and participates in event ID derivation.",
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "durationDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activity",
+        "variant",
+        "durationMs",
+        "isPersonalBest",
+        "personalBestMs",
+        "rawMessage"
+      ],
+      "properties": {
+        "activity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "variant": {
+          "description": "Sub-mode where the game distinguishes one, e.g. Challenge Mode.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "durationMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "isPersonalBest": {
+          "description": "Whether the game announced this run as a personal best.",
+          "type": "boolean"
+        },
+        "personalBestMs": {
+          "description": "Populated only when the game stated a personal best alongside the run.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "rawMessage": {
+          "type": "string"
+        }
+      }
+    },
+    "collectionLogDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "itemName",
+        "completed",
+        "totalPossible"
+      ],
+      "properties": {
+        "itemName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "completed": {
+          "description": "Usually null. The game supplies it only while the collection log interface is open.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "totalPossible": {
+          "description": "Usually null, under the same caveat as completed.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        }
+      }
+    },
+    "manualDetail": {
+      "description": "Detail for an event the player submitted by hand, whatever metric.type says. See docs/api-contract.md section 5.4.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "activity",
+        "input",
+        "interpretedAs"
+      ],
+      "properties": {
+        "activity": {
+          "description": "Label of the metric the player picked, as the panel showed it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "input": {
+          "description": "Exactly what the player typed, untouched. Always readable even when nothing numeric could be got out of it.",
+          "type": "string",
+          "minLength": 1
+        },
+        "interpretedAs": {
+          "description": "How the plugin read input, or null when it could make nothing of it and the string is all the server has to go on.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "count",
+            "quantity",
+            "duration",
+            null
+          ]
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "A hand-typed event carries manualDetail whatever its metric type, and may carry a null value where an observed event of that type never would - refusing an input nothing could be read out of would defeat the point of the feature.",
+      "if": {
+        "properties": {
+          "source": {
+            "const": "MANUAL"
+          }
+        },
+        "required": [
+          "source"
+        ]
+      },
+      "then": {
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/manualDetail"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "OBSERVED"
+          },
+          "metric": {
+            "properties": {
+              "type": {
+                "const": "COUNT"
+              }
+            }
+          }
+        },
+        "required": [
+          "source",
+          "metric"
+        ]
+      },
+      "then": {
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/countDetail"
+          },
+          "metric": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              },
+              "delta": {
+                "const": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "OBSERVED"
+          },
+          "metric": {
+            "properties": {
+              "type": {
+                "const": "KILL"
+              }
+            }
+          }
+        },
+        "required": [
+          "source",
+          "metric"
+        ]
+      },
+      "then": {
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/killDetail"
+          },
+          "metric": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "delta": {
+                "const": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "OBSERVED"
+          },
+          "metric": {
+            "properties": {
+              "type": {
+                "const": "DROP"
+              }
+            }
+          }
+        },
+        "required": [
+          "source",
+          "metric"
+        ]
+      },
+      "then": {
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/dropDetail"
+          },
+          "metric": {
+            "properties": {
+              "value": {
+                "type": "null"
+              },
+              "delta": {
+                "type": "integer",
+                "minimum": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "OBSERVED"
+          },
+          "metric": {
+            "properties": {
+              "type": {
+                "const": "DURATION"
+              }
+            }
+          }
+        },
+        "required": [
+          "source",
+          "metric"
+        ]
+      },
+      "then": {
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/durationDetail"
+          },
+          "metric": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              },
+              "delta": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "source": {
+            "const": "OBSERVED"
+          },
+          "metric": {
+            "properties": {
+              "type": {
+                "const": "COLLECTION_LOG"
+              }
+            }
+          }
+        },
+        "required": [
+          "source",
+          "metric"
+        ]
+      },
+      "then": {
+        "properties": {
+          "detail": {
+            "$ref": "#/$defs/collectionLogDetail"
+          },
+          "metric": {
+            "properties": {
+              "delta": {
+                "const": 1
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "screenshot": {
+            "type": "null"
+          }
+        },
+        "required": [
+          "screenshot"
+        ]
+      },
+      "then": {
+        "properties": {
+          "screenshotMediaType": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "screenshotMediaType": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,221 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://competitivebingo.invalid/schema/game-config.schema.json",
+  "title": "Competitive Bingo game config",
+  "description": "Response of GET /api/plugin/game. Describes the one game a join code refers to. See docs/api-contract.md section 4.1.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gameId",
+    "name",
+    "state",
+    "startsAt",
+    "endsAt",
+    "schemaVersion",
+    "minPluginVersion",
+    "trackedMetrics",
+    "screenshotsRequested"
+  ],
+  "properties": {
+    "gameId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "name": {
+      "description": "Human-readable game name, shown in the panel.",
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "$ref": "#/$defs/gameState"
+    },
+    "startsAt": {
+      "description": "Epoch milliseconds.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "endsAt": {
+      "description": "Epoch milliseconds.",
+      "type": "integer",
+      "minimum": 0
+    },
+    "schemaVersion": {
+      "description": "Must equal the plugin's schema version or the plugin refuses to sync.",
+      "type": "integer",
+      "const": 1
+    },
+    "minPluginVersion": {
+      "description": "Semver. The plugin refuses to sync if its own version is older.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "trackedMetrics": {
+      "$ref": "#/$defs/trackedMetrics"
+    },
+    "metricLabels": {
+      "$ref": "#/$defs/metricLabels"
+    },
+    "metricTargets": {
+      "$ref": "#/$defs/metricTargets"
+    },
+    "dropValueRules": {
+      "$ref": "#/$defs/dropValueRules"
+    },
+    "manualEntryAllowed": {
+      "description": "Whether this game accepts events the player typed in by hand. Null or omitted allows them, so a server predating the field behaves the way its players expect. Withholding the panel control is a convenience: a server that does not want them must reject source MANUAL on ingest.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "screenshotsRequested": {
+      "description": "Whether the server wants screenshots for this game at all.",
+      "type": "boolean"
+    },
+    "blockedWorldTypes": {
+      "description": "net.runelite.api.WorldType enum names this game refuses to count events from. Applied verbatim by the plugin; null or empty blocks nothing, and an unrecognised name is skipped. Must not reject the world named by startWorld.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z][A-Z0-9_]*$"
+      },
+      "uniqueItems": true
+    },
+    "startWorld": {
+      "description": "World the organiser wants players on. The panel offers a hop when the player is elsewhere. Null or omitted when the game does not care.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 1
+    }
+  },
+  "$defs": {
+    "gameState": {
+      "description": "UPCOMING and LIVE accept sync; only LIVE accepts events. ENDED and LOCKED stop emission.",
+      "type": "string",
+      "enum": [
+        "UPCOMING",
+        "LIVE",
+        "ENDED",
+        "LOCKED"
+      ]
+    },
+    "trackedMetrics": {
+      "description": "The only metric IDs the plugin may emit. Exact IDs, plus the two permitted wildcards. No other pattern form exists; a wildcard anywhere else is a malformed config and the plugin rejects it.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "anyOf": [
+          {
+            "$comment": "An exact metric ID.",
+                "pattern": "^(kc|kill|time|collection_log|drop)\\.[a-z0-9_]+$"
+          },
+          {
+            "$comment": "The only two wildcards.",
+            "enum": [
+              "collection_log.*",
+              "drop.*"
+            ]
+          }
+        ]
+      }
+    },
+    "metricLabels": {
+      "description": "Metric ID (or wildcard string) to human-readable label, for the panel's Targets list. Display only; never behavioural. A label for a metric not in trackedMetrics is ignored, except one naming a dropValueRules entry.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "metricTargets": {
+      "description": "Metric ID to how many of it the game wants, so the panel reads '5 Vorkath kills'. Display only, and more strongly so than metricLabels: the plugin does not track progress towards a target, does not stop reporting when one is met, and never reports how far along a player is. For a time. metric the figure is a threshold in milliseconds rather than a count.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 1
+      }
+    },
+    "dropValueRules": {
+      "description": "Metrics to emit for drops falling in a range of coin value. A rule's metricId does not need to appear in trackedMetrics; naming the rule is what asks for the metric. Null or empty means this game prices nothing and the plugin looks up no prices at all.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/$defs/dropValueRule"
+      }
+    },
+    "dropValueRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "metricId"
+      ],
+      "properties": {
+        "metricId": {
+          "description": "The metric ID to emit when a drop matches. Must be an exact ID under 'drop.'; a wildcard or any other namespace is a malformed config and the plugin refuses it.",
+          "type": "string",
+          "pattern": "^drop\\.[a-z0-9_]+$"
+        },
+        "label": {
+          "description": "Display label for the panel. Null falls back to the metric ID.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "minValue": {
+          "description": "Inclusive lower bound in coins, or null for no lower bound. Must not exceed maxValue.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "maxValue": {
+          "description": "Inclusive upper bound in coins, or null for no upper bound.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "valuation": {
+          "description": "Which price to compare against. Null means GRAND_EXCHANGE. An item the client has no such price for matches no rule.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "GRAND_EXCHANGE",
+            "HIGH_ALCHEMY",
+            null
+          ]
+        },
+        "counts": {
+          "description": "What one matching stack contributes to delta. Null means ITEMS. VALUE sends the coin value of the stack, for a game scored on gp.",
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "ITEMS",
+            "VALUE",
+            null
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# Vendored plugin contract artefacts — DO NOT EDIT
+
+These files are copied verbatim from the RuneLite plugin repository. They are the
+authoritative definition of everything on the wire. If a change is needed here, that is a
+plugin release and a schema version bump, not an implementation detail in this repo.
+
+source-repo:     com.millman97.competitivebingo
+plugin-version:  0.1.0
+schema-version:  1
+plugin-commit:   00e42d9
+vendored-at:     2026-08-26T20:20:32Z
+
+files:
+  api-contract.md          <- docs/api-contract.md
+  event.schema.json        <- docs/schema/event.schema.json
+  game-config.schema.json  <- docs/schema/game-config.schema.json
+
+To re-vendor, run: npm run vendor:contract
