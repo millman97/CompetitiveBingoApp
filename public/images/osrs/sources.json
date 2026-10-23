@@ -1,0 +1,406 @@
+{
+  "source": "https://secure.runescape.com/m=hiscore_oldschool/overall",
+  "retrieved": "2026-10-21",
+  "assets": [
+    {
+      "key": "abyssalsire",
+      "file": "hiscores/abyssalsire.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_abyssalsire.png?3"
+    },
+    {
+      "key": "alchemicalhydra",
+      "file": "hiscores/alchemicalhydra.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_alchemicalhydra.png?3"
+    },
+    {
+      "key": "amoxliatl",
+      "file": "hiscores/amoxliatl.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_amoxliatl.png?3"
+    },
+    {
+      "key": "araxxor",
+      "file": "hiscores/araxxor.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_araxxor.png?3"
+    },
+    {
+      "key": "artio",
+      "file": "hiscores/artio.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_artio.png?3"
+    },
+    {
+      "key": "barrowschests",
+      "file": "hiscores/barrowschests.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_barrowschests.png?3"
+    },
+    {
+      "key": "brutus",
+      "file": "hiscores/brutus.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_brutus.png?3"
+    },
+    {
+      "key": "bryophyta",
+      "file": "hiscores/bryophyta.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_bryophyta.png?3"
+    },
+    {
+      "key": "callisto",
+      "file": "hiscores/callisto.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_callisto.png?3"
+    },
+    {
+      "key": "calvarion",
+      "file": "hiscores/calvarion.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_calvarion.png?3"
+    },
+    {
+      "key": "cerberus",
+      "file": "hiscores/cerberus.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_cerberus.png?3"
+    },
+    {
+      "key": "chambersofxeric",
+      "file": "hiscores/chambersofxeric.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_chambersofxeric.png?3"
+    },
+    {
+      "key": "chambersofxericchallengemode",
+      "file": "hiscores/chambersofxericchallengemode.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_chambersofxericchallengemode.png?3"
+    },
+    {
+      "key": "chaoselemental",
+      "file": "hiscores/chaoselemental.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_chaoselemental.png?3"
+    },
+    {
+      "key": "chaosfanatic",
+      "file": "hiscores/chaosfanatic.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_chaosfanatic.png?3"
+    },
+    {
+      "key": "cluescrollsall",
+      "file": "hiscores/cluescrollsall.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_cluescrollsall.png?3"
+    },
+    {
+      "key": "collectionslogged",
+      "file": "hiscores/collectionslogged.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_collectionslogged.png?3"
+    },
+    {
+      "key": "commanderzilyana",
+      "file": "hiscores/commanderzilyana.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_commanderzilyana.png?3"
+    },
+    {
+      "key": "corporealbeast",
+      "file": "hiscores/corporealbeast.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_corporealbeast.png?3"
+    },
+    {
+      "key": "crazyarchaeologist",
+      "file": "hiscores/crazyarchaeologist.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_crazyarchaeologist.png?3"
+    },
+    {
+      "key": "dagannothprime",
+      "file": "hiscores/dagannothprime.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_dagannothprime.png?3"
+    },
+    {
+      "key": "dagannothrex",
+      "file": "hiscores/dagannothrex.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_dagannothrex.png?3"
+    },
+    {
+      "key": "dagannothsupreme",
+      "file": "hiscores/dagannothsupreme.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_dagannothsupreme.png?3"
+    },
+    {
+      "key": "derangedarchaeologist",
+      "file": "hiscores/derangedarchaeologist.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_derangedarchaeologist.png?3"
+    },
+    {
+      "key": "doomofmokhaiotl",
+      "file": "hiscores/doomofmokhaiotl.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_doomofmokhaiotl.png?3"
+    },
+    {
+      "key": "dukesucellus",
+      "file": "hiscores/dukesucellus.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_dukesucellus.png?3"
+    },
+    {
+      "key": "generalgraardor",
+      "file": "hiscores/generalgraardor.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_generalgraardor.png?3"
+    },
+    {
+      "key": "giantmole",
+      "file": "hiscores/giantmole.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_giantmole.png?3"
+    },
+    {
+      "key": "grotesqueguardians",
+      "file": "hiscores/grotesqueguardians.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_grotesqueguardians.png?3"
+    },
+    {
+      "key": "hespori",
+      "file": "hiscores/hespori.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_hespori.png?3"
+    },
+    {
+      "key": "kalphitequeen",
+      "file": "hiscores/kalphitequeen.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_kalphitequeen.png?3"
+    },
+    {
+      "key": "kingblackdragon",
+      "file": "hiscores/kingblackdragon.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_kingblackdragon.png?3"
+    },
+    {
+      "key": "kraken",
+      "file": "hiscores/kraken.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_kraken.png?3"
+    },
+    {
+      "key": "kreearra",
+      "file": "hiscores/kreearra.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_kreearra.png?3"
+    },
+    {
+      "key": "kriltsutsaroth",
+      "file": "hiscores/kriltsutsaroth.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_kriltsutsaroth.png?3"
+    },
+    {
+      "key": "lunarchests",
+      "file": "hiscores/lunarchests.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_lunarchests.png?3"
+    },
+    {
+      "key": "madangel",
+      "file": "hiscores/madangel.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_madangel.png?3"
+    },
+    {
+      "key": "maggotking",
+      "file": "hiscores/maggotking.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_maggotking.png?3"
+    },
+    {
+      "key": "mimic",
+      "file": "hiscores/mimic.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_mimic.png?3"
+    },
+    {
+      "key": "nex",
+      "file": "hiscores/nex.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_nex.png?3"
+    },
+    {
+      "key": "nightmare",
+      "file": "hiscores/nightmare.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_nightmare.png?3"
+    },
+    {
+      "key": "obor",
+      "file": "hiscores/obor.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_obor.png?3"
+    },
+    {
+      "key": "phantommuspah",
+      "file": "hiscores/phantommuspah.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_phantommuspah.png?3"
+    },
+    {
+      "key": "phosanisnightmare",
+      "file": "hiscores/phosanisnightmare.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_phosanisnightmare.png?3"
+    },
+    {
+      "key": "sarachnis",
+      "file": "hiscores/sarachnis.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_sarachnis.png?3"
+    },
+    {
+      "key": "scorpia",
+      "file": "hiscores/scorpia.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_scorpia.png?3"
+    },
+    {
+      "key": "scurrius",
+      "file": "hiscores/scurrius.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_scurrius.png?3"
+    },
+    {
+      "key": "shellbanegryphon",
+      "file": "hiscores/shellbanegryphon.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_shellbanegryphon.png?3"
+    },
+    {
+      "key": "skotizo",
+      "file": "hiscores/skotizo.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_skotizo.png?3"
+    },
+    {
+      "key": "solheredit",
+      "file": "hiscores/solheredit.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_solheredit.png?3"
+    },
+    {
+      "key": "spindel",
+      "file": "hiscores/spindel.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_spindel.png?3"
+    },
+    {
+      "key": "tempoross",
+      "file": "hiscores/tempoross.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_tempoross.png?3"
+    },
+    {
+      "key": "theatreofblood",
+      "file": "hiscores/theatreofblood.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_theatreofblood.png?3"
+    },
+    {
+      "key": "theatreofbloodhardmode",
+      "file": "hiscores/theatreofbloodhardmode.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_theatreofbloodhardmode.png?3"
+    },
+    {
+      "key": "thecorruptedgauntlet",
+      "file": "hiscores/thecorruptedgauntlet.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_thecorruptedgauntlet.png?3"
+    },
+    {
+      "key": "thefracturedarchive",
+      "file": "hiscores/thefracturedarchive.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_thefracturedarchive.png?3",
+      "retrieved": "2026-10-23"
+    },
+    {
+      "key": "thegauntlet",
+      "file": "hiscores/thegauntlet.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_thegauntlet.png?3"
+    },
+    {
+      "key": "thehueycoatl",
+      "file": "hiscores/thehueycoatl.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_thehueycoatl.png?3"
+    },
+    {
+      "key": "theleviathan",
+      "file": "hiscores/theleviathan.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_theleviathan.png?3"
+    },
+    {
+      "key": "thermonuclearsmokedevil",
+      "file": "hiscores/thermonuclearsmokedevil.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_thermonuclearsmokedevil.png?3"
+    },
+    {
+      "key": "theroyaltitans",
+      "file": "hiscores/theroyaltitans.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_theroyaltitans.png?3"
+    },
+    {
+      "key": "thewhisperer",
+      "file": "hiscores/thewhisperer.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_thewhisperer.png?3"
+    },
+    {
+      "key": "tombsofamascut",
+      "file": "hiscores/tombsofamascut.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_tombsofamascut.png?3"
+    },
+    {
+      "key": "tombsofamascutexpertmode",
+      "file": "hiscores/tombsofamascutexpertmode.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_tombsofamascutexpertmode.png?3"
+    },
+    {
+      "key": "tzkalzuk",
+      "file": "hiscores/tzkalzuk.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_tzkalzuk.png?3"
+    },
+    {
+      "key": "tztokjad",
+      "file": "hiscores/tztokjad.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_tztokjad.png?3"
+    },
+    {
+      "key": "vardorvis",
+      "file": "hiscores/vardorvis.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_vardorvis.png?3"
+    },
+    {
+      "key": "venenatis",
+      "file": "hiscores/venenatis.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_venenatis.png?3"
+    },
+    {
+      "key": "vetion",
+      "file": "hiscores/vetion.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_vetion.png?3"
+    },
+    {
+      "key": "vorkath",
+      "file": "hiscores/vorkath.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_vorkath.png?3"
+    },
+    {
+      "key": "wintertodt",
+      "file": "hiscores/wintertodt.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_wintertodt.png?3"
+    },
+    {
+      "key": "yama",
+      "file": "hiscores/yama.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_yama.png?3"
+    },
+    {
+      "key": "zalcano",
+      "file": "hiscores/zalcano.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_zalcano.png?3"
+    },
+    {
+      "key": "zulrah",
+      "file": "hiscores/zulrah.png",
+      "url": "https://www.runescape.com/img/rsp777/game_icon_zulrah.png?3"
+    },
+    {
+      "key": "agility",
+      "file": "skills/agility.gif",
+      "url": "https://www.runescape.com/img/rsp777/hiscores/skill_icon_agility1.gif"
+    },
+    {
+      "key": "coins",
+      "file": "items/coins.png",
+      "url": "https://oldschool.runescape.wiki/images/Coins_10000.png",
+      "sha256": "174c79c227ab76e782ace8c3fdd7939407dc0def46347a82115e358549d8bcd3"
+    },
+    {
+      "key": "combat",
+      "file": "skills/combat.png",
+      "resource": "net.runelite:client:1.12.38!/skill_icons/combat.png",
+      "sha256": "f06a32c710caaba1ca1a09a653d06492616ad6d5f30caa017c2a1afc2870d19c"
+    },
+    {
+      "key": "clock",
+      "file": "items/clock.png",
+      "resource": "net.runelite:client:1.12.38!/net/runelite/client/plugins/barbarianassault/clock.png",
+      "sha256": "a2ab9fdcdee8936bbf898a24e10223884bee19ff2846d251ea84868965df6bd9"
+    },
+    {
+      "key": "loot-bag",
+      "file": "items/loot-bag.png",
+      "resource": "net.runelite:client:1.12.38!/net/runelite/client/plugins/loottracker/panel_icon.png",
+      "sha256": "a548dfadd74c20a20a25ce5f414829392debb6073a209f4f6e45f8594aebba06"
+    }
+  ]
+}
