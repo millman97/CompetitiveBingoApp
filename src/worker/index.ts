@@ -39,7 +39,7 @@ app.onError((err, c) => {
   );
 });
 
-// Lets the deploy workflow assert the Worker is actually answering before it prints success.
+// Liveness only; this does not check database setup or admin credentials.
 app.get('/api/health', (c) =>
   c.json({ ok: true as const, schemaVersion: SCHEMA_VERSION }),
 );
@@ -47,7 +47,7 @@ app.get('/api/health', (c) =>
 // Order matters. The public login routes are registered first, so a request to /api/admin/login
 // is answered by them and never reaches the session check on the protected router below.
 const routes = app
-  .route('/api/events', eventRoutes)
+  .route('/api/games', eventRoutes)
   .route('/api/board', boardRoutes)
   .route('/api/plugin', pluginRoutes)
   .route('/api/admin', adminAuthRoutes)

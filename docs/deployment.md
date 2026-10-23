@@ -92,6 +92,9 @@ for a retry. Removing a trial requires deleting its Worker, database and bucket.
 
 ## Troubleshooting
 
+If login reports a PBKDF2 iteration error, keep `ADMIN_PASSWORD` set and redeploy.
+The workflow regenerates its hash within Cloudflare's production limit.
+
 | Problem                           | Check                                                                                 |
 | --------------------------------- | ------------------------------------------------------------------------------------- |
 | Authentication / HTTP 403         | Account ID, token scope, expiry and Workers/D1/R2 permissions                         |

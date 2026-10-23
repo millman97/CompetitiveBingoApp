@@ -3,6 +3,8 @@ import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { test } from 'node:test';
 import Ajv from 'ajv';
+import { pbkdf2Sync } from 'node:crypto';
+import { hashPassword } from '../hash-password.mjs';
 import {
   buildEnvironment,
   cloudflareClient,
@@ -25,6 +27,25 @@ const database = {
   name: 'test-clan',
   uuid: 'aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee',
 };
+
+test('deployment hashes support symbols and stay within the production Worker iteration limit', async () => {
+  const password = 'A password with $! "quotes" and 雪';
+  const stored = await hashPassword(password);
+  const [algorithm, iterationCount, salt, digest] = stored.split('$');
+  const iterations = Number(iterationCount);
+  assert.equal(algorithm, 'pbkdf2');
+  assert.ok(iterations > 0 && iterations <= 100_000);
+  assert.equal(
+    pbkdf2Sync(
+      password,
+      Buffer.from(salt, 'base64'),
+      iterations,
+      32,
+      'sha256'
+    ).toString('base64'),
+    digest
+  );
+});
 
 function fixture({ existing = false, failCommand, failApi } = {}) {
   const calls = [];

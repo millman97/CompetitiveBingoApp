@@ -27,8 +27,10 @@ jobs:
           cache: npm
       - name: Install locked dependencies
         run: npm ci
-      - name: Check deployment tooling
-        run: npm run test:deploy
+      - name: Check local unit tests
+        run: |
+          npm run test:unit
+          npm run test:deploy
       - name: Build, provision, migrate and deploy
         run: npm run deploy
         env:

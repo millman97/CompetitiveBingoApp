@@ -12,7 +12,8 @@
 
 import { webcrypto as crypto } from 'node:crypto';
 
-const ITERATIONS = 210_000;
+// Cloudflare's production WebCrypto caps each PBKDF2 operation at 100,000 iterations.
+const ITERATIONS = 100_000;
 const KEY_BITS = 256;
 const SALT_BYTES = 16;
 

@@ -10,7 +10,8 @@
 //
 // Format: pbkdf2$<iterations>$<salt-b64>$<hash-b64>
 
-const ITERATIONS = 210_000;
+// The production Workers limit is not enforced by the local test runtime.
+const ITERATIONS = 100_000;
 const KEY_BITS = 256;
 const SALT_BYTES = 16;
 
@@ -73,6 +74,12 @@ export const verifyPassword = async (password: string, stored: string): Promise<
   const iterations = Number(parts[1]);
   if (!Number.isInteger(iterations) || iterations < 1) {
     throw new Error('ADMIN_PASSWORD_HASH has a bad iteration count. Re-run the deploy workflow.');
+  }
+
+  if (iterations > ITERATIONS) {
+    throw new Error(
+      'ADMIN_PASSWORD_HASH exceeds the Workers PBKDF2 limit. Set ADMIN_PASSWORD and re-run deployment to generate a supported hash.',
+    );
   }
 
   const salt = fromB64(parts[2] as string);

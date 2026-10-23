@@ -39,7 +39,7 @@ describe('password hashing', () => {
 describe('interoperability with scripts/hash-password.mjs', () => {
   // Produced by: node scripts/hash-password.mjs "pinned-test-password"
   const FROM_SCRIPT =
-    'pbkdf2$210000$P5JZ93hlU7HpQjFImpvuRg==$uJeNMxfdGh3Lr0GdRF3B5a5pyv/yy1f9CEQOA/9XbrY=';
+    'pbkdf2$100000$P5JZ93hlU7HpQjFImpvuRg==$9BhaDqp/TV067vSfLOsWYqdwI0LcT+glhFTM0KE2u34=';
 
   it('verifies a hash the deploy script produced', async () => {
     expect(await verifyPassword('pinned-test-password', FROM_SCRIPT)).toBe(true);
